@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -38,9 +39,6 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
         if let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupsTableViewCell {
             cell.listLabel.text = groups[indexPath.row]
             cell.membersLabel.text = ""
-//            let backgroundView = UIView()
-//            backgroundView.backgroundColor = UIColor(red:0.62, green:0.38, blue:0.49, alpha:1.0)
-//            cell.selectedBackgroundView = backgroundView
             
             return cell
         }
@@ -63,7 +61,6 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedList = indexPath.row
-        groupsTableView.deselectRow(at: indexPath, animated: false)
         performSegue(withIdentifier: "groupsToList", sender: nil)
     }
     
@@ -80,6 +77,31 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            // delete item at indexPath
+            groups.remove(at: indexPath.row)
+            self.groupsTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+//        let edit = UITableViewRowAction(style: .default, title: "Edit") { (action, indexPath) in
+//        }
+        
+        delete.backgroundColor = UIColor.lightGray
+        
+        return [delete]
+        
+    }
+    
+    @IBAction func logOut(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "groupsToLogin", sender: self)
+        } catch let err {
+            print(err)
+        }
+    }
     
     /*
     // MARK: - Navigation

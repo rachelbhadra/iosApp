@@ -48,7 +48,6 @@ class NewItemViewController: UIViewController {
     
     
     override func viewDidDisappear(_ animated: Bool) {
-        prev.listItems = lists[listID]
         prev.listTableView.reloadData()
     }
 

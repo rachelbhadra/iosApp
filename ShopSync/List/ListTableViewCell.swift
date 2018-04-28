@@ -11,9 +11,8 @@ import UIKit
 class ListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var itemLabel: UILabel!
-    @IBOutlet weak var checkbox: UIButton!
+    @IBOutlet weak var checkbox: UIImageView!
     
-
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
