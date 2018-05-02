@@ -11,6 +11,8 @@ import FirebaseAuth
 
 class ListTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let currentUser = CurrentUser()
+    
     @IBOutlet weak var listName: UILabel!
     var listID = Int()
     var listItems = [String]()
@@ -73,6 +75,8 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let curr = lists[listID].checked[indexPath.row]
         lists[listID].checked[indexPath.row] = !curr
+        let checked = lists[listID].checked
+        currentUser.updateChecked(id: lists[listID].id, checked: checked)
         listTableView.reloadData()
     }
     
@@ -83,6 +87,8 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
                 lists[listID].checked[i] = true
             }
         }
+        let checked = lists[listID].checked
+        currentUser.updateChecked(id: lists[listID].id, checked: checked)
         listTableView.reloadData()
     }
     
@@ -97,6 +103,8 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         lists[listID].items = newList
         lists[listID].checked = newChecked
+        currentUser.updateItems(id: lists[listID].id, items: newList)
+        currentUser.updateChecked(id: lists[listID].id, checked: newChecked)
         listTableView.reloadData()
     }
     
@@ -105,6 +113,8 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath
             lists[self.listID].items.remove(at: indexPath.row)
+            let items = lists[self.listID].items
+            self.currentUser.updateItems(id: lists[self.listID].id, items: items)
             self.listTableView.deleteRows(at: [indexPath], with: .fade)
         }
         delete.backgroundColor = UIColor.lightGray

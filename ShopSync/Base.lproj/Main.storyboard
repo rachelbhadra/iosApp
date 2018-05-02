@@ -423,7 +423,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmJ-Ca-pbY" userLabel="Separator">
-                                                    <rect key="frame" x="0.0" y="65" width="375" height="0.5"/>
+                                                    <rect key="frame" x="0.0" y="64" width="375" height="1"/>
                                                     <color key="backgroundColor" red="0.87940655400000001" green="0.86547761320000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="0.25" id="0oH-ZL-Fn0"/>
@@ -439,7 +439,7 @@
                                                 <constraint firstItem="bGG-BD-BeU" firstAttribute="leading" secondItem="ECO-Wg-F6C" secondAttribute="leading" constant="15" id="WKY-VS-Au3"/>
                                                 <constraint firstItem="bGG-BD-BeU" firstAttribute="top" secondItem="ECO-Wg-F6C" secondAttribute="top" constant="18" id="c7e-B3-59D"/>
                                                 <constraint firstItem="gmJ-Ca-pbY" firstAttribute="width" secondItem="ECO-Wg-F6C" secondAttribute="width" id="eQE-6X-8yj"/>
-                                                <constraint firstItem="gmJ-Ca-pbY" firstAttribute="top" secondItem="ECO-Wg-F6C" secondAttribute="top" constant="64.25" id="eox-I7-Y0H"/>
+                                                <constraint firstItem="gmJ-Ca-pbY" firstAttribute="top" secondItem="ECO-Wg-F6C" secondAttribute="top" constant="64" id="enj-hz-qiR"/>
                                                 <constraint firstItem="0Aa-wB-FRp" firstAttribute="leading" secondItem="ECO-Wg-F6C" secondAttribute="leading" constant="15" id="gDX-hi-7cE"/>
                                                 <constraint firstItem="gmJ-Ca-pbY" firstAttribute="centerX" secondItem="ECO-Wg-F6C" secondAttribute="centerX" id="iBX-Ob-wtu"/>
                                             </constraints>

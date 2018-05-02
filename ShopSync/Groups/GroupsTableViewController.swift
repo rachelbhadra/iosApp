@@ -59,7 +59,7 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         self.groupsTableView.reloadData()
-        //updateData()
+        updateData()
     }
     
     func updateData() {
@@ -96,6 +96,8 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath
+            self.currentUser.deleteList(id: lists[indexPath.row].id)
+            self.currentUser.deleteListID(listId: lists[indexPath.row].id)
             lists.remove(at: indexPath.row)
             self.groupsTableView.deleteRows(at: [indexPath], with: .fade)
         }

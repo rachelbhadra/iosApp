@@ -24,7 +24,7 @@ class List {
     var checked: [Bool]
     
     /// The ID of the list
-    let listId: String
+    let id: String
     
     
 
@@ -33,6 +33,6 @@ class List {
         self.items = items
         self.members = members
         self.checked = checked
-        self.listId = id
+        self.id = id
     }
 }

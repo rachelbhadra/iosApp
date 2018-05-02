@@ -14,6 +14,7 @@ class NewItemViewController: UIViewController {
     @IBOutlet weak var popup: UIView!
     var listID = Int()
     var prev = ListTableViewController()
+    let currentUser = CurrentUser()
     
     let sendAlert = UIAlertController(title: "Item added!", message: "", preferredStyle: UIAlertControllerStyle.alert)
     
@@ -33,7 +34,11 @@ class NewItemViewController: UIViewController {
     @IBAction func add(_ sender: Any) {
         if itemText.text != "" {
             lists[listID].items.append(itemText.text!)
+            let items = lists[listID].items
             lists[listID].checked.append(false)
+            let checked = lists[listID].checked
+            currentUser.updateItems(id: lists[listID].id, items: items)
+            currentUser.updateChecked(id: lists[listID].id, checked: checked)
             self.present(sendAlert, animated: true, completion: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.sendAlert.dismiss(animated: false, completion: nil)

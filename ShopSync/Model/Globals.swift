@@ -33,9 +33,19 @@ func getLists(user: CurrentUser, completion: @escaping ([List]?) -> Void) {
             if let lists = snapshot.value as? [String:AnyObject] {
                 user.getListIDs(completion: { (ids) in
                     for listKey in lists.keys {
-                        let listVal = lists[listKey] as! [String:AnyObject]
-                        let list = List(id: listKey, name: listVal["name"] as! String, items: listVal["items"]! as! [String], members: listVal["members"]! as! [String], checked: listVal["checked"]! as! [Bool])
-                        listArray.append(list)
+                        if ids.contains(listKey) {
+                            let listVal = lists[listKey] as! [String:AnyObject]
+                            var items = [String]()
+                            var checked = [Bool]()
+                            if listVal["items"] != nil {
+                                items = listVal["items"]! as! [String]
+                            }
+                            if listVal["checked"] != nil {
+                                checked = listVal["checked"]! as! [Bool]
+                            }
+                            let list = List(id: listKey, name: listVal["name"] as! String, items: items, members: listVal["members"]! as! [String], checked: checked)
+                            listArray.append(list)
+                        }
                     }
                     completion(listArray)
                 })

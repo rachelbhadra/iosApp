@@ -37,11 +37,11 @@ class NewGroupViewController: UIViewController {
             let name = nameText.text!
             let members = ["Me"]
             let items = [String]()
-            let checkedItems = [Bool]()
-            let id = ""
-            let list = List(id: id, name: name, items: items, members: members, checked: checkedItems)
-//            currentUser.addList(list: list)
+            let checked = [Bool]()
+            let key = currentUser.addList(name: name, members: members, items: items, checked: checked)
+            let list = List(id: key, name: name, items: items, members: members, checked: checked)
             addToLists(list: list)
+            currentUser.addListID(listID: key)
             self.present(sendAlert, animated: true, completion: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.sendAlert.dismiss(animated: false, completion: nil)
