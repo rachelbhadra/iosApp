@@ -32,8 +32,8 @@ class NewItemViewController: UIViewController {
     
     @IBAction func add(_ sender: Any) {
         if itemText.text != "" {
-            lists[listID].append(itemText.text!)
-            checked[listID].append(false)
+            lists[listID].items.append(itemText.text!)
+            lists[listID].checked.append(false)
             self.present(sendAlert, animated: true, completion: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.sendAlert.dismiss(animated: false, completion: nil)

@@ -14,6 +14,7 @@ class NewGroupViewController: UIViewController {
     @IBOutlet weak var createButton: UIButton!
     @IBOutlet weak var popup: UIView!
     var prev = GroupsTableViewController()
+    let currentUser = CurrentUser()
     
     let sendAlert = UIAlertController(title: "New list created!", message: "", preferredStyle: UIAlertControllerStyle.alert)
     
@@ -33,9 +34,14 @@ class NewGroupViewController: UIViewController {
     
     @IBAction func create(_ sender: Any) {
         if nameText.text != "" {
-            groups.append(nameText.text!)
-            lists.append([String]())
-            checked.append([Bool]())
+            let name = nameText.text!
+            let members = ["Me"]
+            let items = [String]()
+            let checkedItems = [Bool]()
+            let id = ""
+            let list = List(id: id, name: name, items: items, members: members, checked: checkedItems)
+//            currentUser.addList(list: list)
+            addToLists(list: list)
             self.present(sendAlert, animated: true, completion: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.sendAlert.dismiss(animated: false, completion: nil)

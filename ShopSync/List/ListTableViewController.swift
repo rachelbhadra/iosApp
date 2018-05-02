@@ -21,14 +21,14 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
         super.viewDidLoad()
         self.listTableView.separatorColor = UIColor.white
-        listName.text = groups[listID]
+        listName.text = lists[listID].name
         listTableView.delegate = self
         listTableView.dataSource = self
         // Do any additional setup after loading the view.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lists[listID].count
+        return lists[listID].items.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -37,8 +37,8 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as? ListTableViewCell {
-            cell.itemLabel.text = lists[listID][indexPath.row]
-            if checked[listID][indexPath.row] {
+            cell.itemLabel.text = lists[listID].items[indexPath.row]
+            if lists[listID].checked[indexPath.row] {
                 cell.checkbox.image = UIImage(named: "checked.png")
             } else {
                 cell.checkbox.image = UIImage(named: "unchecked.png")
@@ -71,16 +71,16 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let curr = checked[listID][indexPath.row]
-        checked[listID][indexPath.row] = !curr
+        let curr = lists[listID].checked[indexPath.row]
+        lists[listID].checked[indexPath.row] = !curr
         listTableView.reloadData()
     }
     
 
     @IBAction func completeAll(_ sender: Any) {
-        for i in 0...(lists[listID].count - 1) {
-            if !checked[listID][i] {
-                checked[listID][i] = true
+        for i in 0...(lists[listID].items.count - 1) {
+            if !lists[listID].checked[i] {
+                lists[listID].checked[i] = true
             }
         }
         listTableView.reloadData()
@@ -89,14 +89,14 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func clearCompleted(_ sender: Any) {
         var newList = [String]()
         var newChecked = [Bool]()
-        for i in 0...(lists[listID].count - 1) {
-            if !checked[listID][i] {
-                newList.append(lists[listID][i])
-                newChecked.append(checked[listID][i])
+        for i in 0...(lists[listID].items.count - 1) {
+            if !lists[listID].checked[i] {
+                newList.append(lists[listID].items[i])
+                newChecked.append(lists[listID].checked[i])
             }
         }
-        lists[listID] = newList
-        checked[listID] = newChecked
+        lists[listID].items = newList
+        lists[listID].checked = newChecked
         listTableView.reloadData()
     }
     
@@ -104,7 +104,7 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath
-            lists[self.listID].remove(at: indexPath.row)
+            lists[self.listID].items.remove(at: indexPath.row)
             self.listTableView.deleteRows(at: [indexPath], with: .fade)
         }
         delete.backgroundColor = UIColor.lightGray

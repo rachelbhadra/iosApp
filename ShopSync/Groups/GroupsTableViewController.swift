@@ -16,6 +16,8 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
     
     let cellHeight:CGFloat = 65
     
+    let currentUser = CurrentUser()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.groupsTableView.separatorColor = UIColor.white
@@ -26,7 +28,7 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
+        return lists.count
     }
     
     
@@ -37,9 +39,9 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupsTableViewCell {
-            cell.listLabel.text = groups[indexPath.row]
-            cell.membersLabel.text = ""
-            
+            cell.listLabel.text = lists[indexPath.row].name
+            let membersString = lists[indexPath.row].members.joined(separator: ", ")
+            cell.membersLabel.text = membersString
             return cell
         }
         return UITableViewCell()
@@ -55,9 +57,22 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
         self.performSegue(withIdentifier: "groupsToCreate", sender: self)
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.groupsTableView.reloadData()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.groupsTableView.reloadData()
+        //updateData()
+    }
+    
+    func updateData() {
+        getLists(user: currentUser) { (lists) in
+            if let lists = lists {
+                clearLists()
+                for list in lists {
+                    addToLists(list: list)
+                }
+                self.groupsTableView.reloadData()
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedList = indexPath.row
@@ -81,7 +96,7 @@ class GroupsTableViewController: UIViewController, UITableViewDelegate, UITableV
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath
-            groups.remove(at: indexPath.row)
+            lists.remove(at: indexPath.row)
             self.groupsTableView.deleteRows(at: [indexPath], with: .fade)
         }
         
